@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import ExportModal from "./components/ExportModal"
 import Sections from "./components/Sections"
+import { getJsonData } from "./utils"
 
 function App() {
   const {
@@ -26,9 +27,9 @@ function App() {
     reader.onloadend = () => {
       const content = reader.result
       const jsonData = JSON.parse(content)
-
-      setJson(jsonData)
-      reset({ sections: [] })
+      console.log(getJsonData(jsonData))
+      reset(getJsonData(jsonData))
+      
       try {
         importRef.current?.reset()
       } catch {

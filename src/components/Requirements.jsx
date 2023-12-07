@@ -4,40 +4,12 @@ import { BiTrashAlt } from "react-icons/bi"
 import LabledInput from "./LabledInput"
 import SubRequirements from "./SubRequirements"
 
-const Requirements = ({ control, register, nestIndex, json, setRJson }) => {
+const Requirements = ({ control, register, nestIndex }) => {
   const name = `sections.${nestIndex}.requirements`
   const { fields, append, remove } = useFieldArray({
     control,
     name,
   })
-
-  const [srJson, setSrJson] = useState(null)
-
-  useEffect(() => {
-    if (json) {
-      let srJsons = []
-      for (let requirement of Object.entries(json)) {
-        append({
-          description: requirement[1].description,
-          number: requirement[1].number,
-          correct: true,
-          message: requirement[1].message,
-        })
-
-        let sub_reqs = []
-        for (let sub_req of Object.values(requirement[1])) {
-          if (typeof sub_req == "object") {
-            sub_reqs.push(sub_req)
-          }
-        }
-
-        srJsons.push(sub_reqs)
-      }
-
-      setSrJson(srJsons)
-      setRJson(null)
-    }
-  }, [json, append, setRJson])
 
   return (
     <div className="relative p-5 mt-3 overflow-hidden rounded-md bg-zinc-700 border-zinc-500">
@@ -77,8 +49,6 @@ const Requirements = ({ control, register, nestIndex, json, setRJson }) => {
                 <SubRequirements
                   nestIndex={nestIndex}
                   reqNestIndex={index}
-                  json={srJson ? srJson[index] : null}
-                  setSrJson={setSrJson}
                   {...{ control, register }}
                 />
               </div>

@@ -4,25 +4,11 @@ import { BiTrashAlt } from "react-icons/bi"
 import LabledInput from "./LabledInput"
 import Requirements from "./Requirements"
 
-const Sections = ({ control, register, json, setJson, getValues }) => {
+const Sections = ({ control, register }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sections",
   })
-  const [rJson, setRJson] = useState(null)
-
-  useEffect(() => {
-    if (json) {
-      let rJsons = []
-      for (let section of Object.entries(json)) {
-        append({ name: section[0] })
-        rJsons.push(section[1])
-      }
-
-      setRJson(rJsons)
-      setJson(null)
-    }
-  }, [json, append, setJson])
 
   return (
     <div className="flex flex-col gap-5">
@@ -42,8 +28,6 @@ const Sections = ({ control, register, json, setJson, getValues }) => {
               </LabledInput>
 
               <Requirements
-                setRJson={setRJson}
-                json={rJson ? rJson[index] : null}
                 nestIndex={index}
                 {...{ control, register }}
               />

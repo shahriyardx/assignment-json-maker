@@ -3,34 +3,12 @@ import { useFieldArray } from "react-hook-form"
 import { BiTrashAlt } from "react-icons/bi"
 import LabledInput from "./LabledInput"
 
-const SubRequirements = ({
-  nestIndex,
-  reqNestIndex,
-  control,
-  register,
-  json,
-  setSrJson,
-}) => {
+const SubRequirements = ({ nestIndex, reqNestIndex, control, register }) => {
   const name = `sections.${nestIndex}.requirements.${reqNestIndex}.subRequirements`
   const { fields, remove, append } = useFieldArray({
     control,
     name,
   })
-
-  useEffect(() => {
-    if (json) {
-      for (let requirement of Object.entries(json)) {
-        append({
-          description: requirement[1].description,
-          number: requirement[1].number,
-          correct: true,
-          message: requirement[1].message,
-        })
-      }
-
-      setSrJson(null)
-    }
-  }, [json, append, setSrJson])
 
   return (
     <>
