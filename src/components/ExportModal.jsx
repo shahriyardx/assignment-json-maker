@@ -7,6 +7,7 @@ const ExportModal = ({
   filename,
   setFilename,
   onSubmit,
+  onSubmitLegacy,
   getValues,
 }) => {
   function closeModal() {
@@ -61,7 +62,18 @@ const ExportModal = ({
                     </p>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="flex items-center gap-2 mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md bg-zinc-950 hover:bg-zinc-900"
+                      onClick={() => {
+                        onSubmitLegacy(getValues())
+                        setOpen(false)
+                      }}
+                    >
+                      Download Old
+                    </button>
+
                     <button
                       type="button"
                       className="inline-flex justify-center px-4 py-2 text-sm font-medium border border-transparent rounded-md bg-zinc-950 hover:bg-zinc-900"

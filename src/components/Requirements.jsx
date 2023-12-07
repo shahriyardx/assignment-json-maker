@@ -46,62 +46,61 @@ const Requirements = ({ control, register, nestIndex, json, setRJson }) => {
       </span>
 
       <div className="flex flex-col gap-5 mt-5">
-      {fields.map((item, index) => {
-        return (
-          <div key={item.id} className="grid grid-cols-[auto,28px] gap-3">
-            <div>
-              <div className="grid grid-cols-3 gap-3">
-                <LabledInput label={"Description"}>
-                  <input
-                    {...register(`${name}.${index}.description`)}
-                    placeholder="Description"
-                    className="w-full"
-                  />
-                </LabledInput>
-                <LabledInput label={"Number"}>
-                  <input
-                    {...register(`${name}.${index}.number`)}
-                    placeholder="Number"
-                    className="w-full"
-                  />
-                </LabledInput>
-                <LabledInput label={"Message"}>
-                  <input
-                    {...register(`${name}.${index}.message`)}
-                    placeholder="Message"
-                    className="w-full"
-                  />
-                </LabledInput>
+        {fields.map((item, index) => {
+          return (
+            <div key={item.id} className="grid grid-cols-[auto,28px] gap-3">
+              <div>
+                <div className="grid grid-cols-3 gap-3">
+                  <LabledInput label={"Description"}>
+                    <input
+                      {...register(`${name}.${index}.data.description`)}
+                      placeholder="Description"
+                      className="w-full"
+                    />
+                  </LabledInput>
+                  <LabledInput label={"Number"}>
+                    <input
+                      {...register(`${name}.${index}.data.number`)}
+                      placeholder="Number"
+                      className="w-full"
+                    />
+                  </LabledInput>
+                  <LabledInput label={"Message"}>
+                    <input
+                      {...register(`${name}.${index}.data.message`)}
+                      placeholder="Message"
+                      className="w-full"
+                    />
+                  </LabledInput>
+                </div>
+
+                <SubRequirements
+                  nestIndex={nestIndex}
+                  reqNestIndex={index}
+                  json={srJson ? srJson[index] : null}
+                  setSrJson={setSrJson}
+                  {...{ control, register }}
+                />
               </div>
 
-              <SubRequirements
-                nestIndex={nestIndex}
-                reqNestIndex={index}
-                json={srJson ? srJson[index] : null}
-                setSrJson={setSrJson}
-                {...{ control, register }}
-              />
+              <div>
+                <button
+                  type="button"
+                  onClick={() => remove(index)}
+                  className="grid text-white bg-red-500 rounded-full w-7 h-7 place-items-center"
+                >
+                  <BiTrashAlt />
+                </button>
+              </div>
             </div>
-
-            <div>
-              <button
-                type="button"
-                onClick={() => remove(index)}
-                className="grid text-white bg-red-500 rounded-full w-7 h-7 place-items-center"
-              >
-                <BiTrashAlt />
-              </button>
-            </div>
-          </div>
-        )
-      })}
-
+          )
+        })}
       </div>
 
       <div className="mt-3">
         <button
           type="button"
-          onClick={() => append({ message: "not okay" })}
+          onClick={() => append({ data: { message: "not okay" } })}
           className="px-3 py-2 text-xs text-white rounded-md bg-zinc-800"
         >
           Add Requirement

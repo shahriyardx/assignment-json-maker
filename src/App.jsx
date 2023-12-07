@@ -39,8 +39,28 @@ function App() {
     reader.readAsText(file)
   }
 
+  const download = (json) => {
+    const jsonString = JSON.stringify(json, null, 2)
+    const blob = new Blob([jsonString], { type: "application/json" })
+
+    const a = document.createElement("a")
+    a.href = window.URL.createObjectURL(blob)
+    a.download = `${filename.replaceAll(".json", "")}.json`
+
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
   const onSubmit = (data) => {
-    const json = new Map()
+    const json = {
+      type: "new",
+      ...data,
+    }
+
+    download(json)
+  }
+  const onSubmitLegacy = (data) => {
+    const json = {}
 
     for (let section of data.sections) {
       const sectionJson = {}
@@ -48,12 +68,12 @@ function App() {
       for (let requirementIndex in requirements) {
         const requirement = requirements[requirementIndex]
         const requirementJson = {
-          description: requirement.description,
-          number: String(requirement.number),
+          description: requirement.data.description,
+          number: String(requirement.data.number),
           correct: true,
-          message: requirement.message,
+          message: requirement.data.message,
         }
-        const subRequirements = requirement.subrequirements
+        const subRequirements = requirement.subRequirements
 
         for (let subRequirementIndex in subRequirements) {
           const subRequirement = subRequirements[subRequirementIndex]
@@ -61,7 +81,7 @@ function App() {
             Number(subRequirementIndex) + 1
           }`
 
-          let message = subRequirement.message
+          let message = "not okay"
 
           if (subRequirement.message == "not okay" && data.include) {
             message = `${subRequirement.description} -> not okay`
@@ -80,22 +100,10 @@ function App() {
         sectionJson[`req-${requirementIndex + 1}`] = requirementJson
       }
 
-      json.set(section.name.trim().replaceAll(" ", "-"), sectionJson)
+      json[section.name.trim().replaceAll(" ", "-")] = sectionJson
     }
-
-    const arrayFromMap = Array.from(json)
-    const jsonObject = Object.fromEntries(arrayFromMap)
-
-    const jsonString = JSON.stringify(jsonObject, null, 2)
-    const blob = new Blob([jsonString], { type: "application/json" })
-
-    const a = document.createElement("a")
-    a.href = window.URL.createObjectURL(blob)
-    a.download = `${filename.replaceAll(".json", "")}.json`
-
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
+  
+    download(json)
   }
 
   return (
@@ -161,6 +169,7 @@ function App() {
         filename={filename}
         setFilename={setFilename}
         getValues={getValues}
+        onSubmitLegacy={onSubmitLegacy}
         onSubmit={onSubmit}
       />
     </div>

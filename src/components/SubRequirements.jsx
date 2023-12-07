@@ -11,7 +11,7 @@ const SubRequirements = ({
   json,
   setSrJson,
 }) => {
-  const name = `sections.${nestIndex}.requirements.${reqNestIndex}.subrequirements`
+  const name = `sections.${nestIndex}.requirements.${reqNestIndex}.subRequirements`
   const { fields, remove, append } = useFieldArray({
     control,
     name,
