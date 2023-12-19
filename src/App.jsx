@@ -98,7 +98,7 @@ function App() {
           requirementJson[req_name] = subReqJson
         }
 
-        sectionJson[`req-${requirementIndex + 1}`] = requirementJson
+        sectionJson[`req-${Number(requirementIndex) + 1}`] = requirementJson
       }
 
       json[section.name.trim().replaceAll(" ", "-")] = sectionJson
