@@ -72,7 +72,7 @@ function App() {
           description: requirement.data.description,
           number: String(requirement.data.number),
           correct: true,
-          message: requirement.data.message,
+          message: requirement.data.notOkayMessage,
         }
         const subRequirements = requirement.subRequirements
 

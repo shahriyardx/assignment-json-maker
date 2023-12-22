@@ -1,11 +1,11 @@
 import { useEffect } from "react"
 import { useFieldArray } from "react-hook-form"
-import { BiTrashAlt } from "react-icons/bi"
+import { BiChevronDown, BiChevronUp, BiTrashAlt } from "react-icons/bi"
 import LabledInput from "./LabledInput"
 
 const SubRequirements = ({ nestIndex, reqNestIndex, control, register }) => {
   const name = `sections.${nestIndex}.requirements.${reqNestIndex}.subRequirements`
-  const { fields, remove, append } = useFieldArray({
+  const { fields, remove, append, swap } = useFieldArray({
     control,
     name,
   })
@@ -20,10 +20,37 @@ const SubRequirements = ({ nestIndex, reqNestIndex, control, register }) => {
           <div className="flex flex-col gap-5 mt-5">
             {fields.map((item, index) => {
               return (
-                <div key={item.id} className="grid grid-cols-[auto,28px] gap-3">
+                <div
+                  key={item.id}
+                  className="grid grid-cols-[28px,auto,28px] gap-3"
+                >
+                  <div className="flex flex-col gap-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (index != 0) {
+                          swap(index, index - 1)
+                        }
+                      }}
+                      className="grid text-white rounded-full bg-zinc-600 w-7 h-7 place-items-center"
+                    >
+                      <BiChevronUp />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (index < fields.length - 1) {
+                          swap(index, index + 1)
+                        }
+                      }}
+                      className="grid text-white rounded-full bg-zinc-600 w-7 h-7 place-items-center"
+                    >
+                      <BiChevronDown />
+                    </button>
+                  </div>
                   <div>
-                    <div className="grid grid-cols-3 gap-3">
-                      <LabledInput label={"Description"}>
+                    <div className="grid grid-cols-6 gap-3">
+                      <LabledInput label={"Description"} className="col-span-3">
                         <input
                           {...register(`${name}.${index}.description`)}
                           placeholder="Description"
@@ -37,17 +64,24 @@ const SubRequirements = ({ nestIndex, reqNestIndex, control, register }) => {
                           className="w-full"
                         />
                       </LabledInput>
-                      <LabledInput label={"Message"}>
+                      <LabledInput label={"Okay Message"}>
                         <input
-                          {...register(`${name}.${index}.message`)}
-                          placeholder="Message"
+                          {...register(`${name}.${index}.okayMessage`)}
+                          placeholder="OKay Message"
+                          className="w-full"
+                        />
+                      </LabledInput>
+                      <LabledInput label={"Not Okay Message"}>
+                        <input
+                          {...register(`${name}.${index}.notOkayMessage`)}
+                          placeholder="Not Okay Message"
                           className="w-full"
                         />
                       </LabledInput>
                     </div>
                   </div>
 
-                  <div>
+                  <div className="mt-6">
                     <button
                       type="button"
                       onClick={() => remove(index)}
@@ -64,7 +98,9 @@ const SubRequirements = ({ nestIndex, reqNestIndex, control, register }) => {
           <div className="mt-3">
             <button
               type="button"
-              onClick={() => append({ message: "not okay" })}
+              onClick={() =>
+                append({ okayMessage: "okay", notOkayMessage: "not okay" })
+              }
               className="px-3 py-2 text-xs text-white rounded-md bg-zinc-600"
             >
               Add Another
@@ -76,7 +112,9 @@ const SubRequirements = ({ nestIndex, reqNestIndex, control, register }) => {
           <button
             type="button"
             className="px-2 py-2 mt-2 text-xs rounded-md bg-zinc-600"
-            onClick={() => append({ message: "not okay" })}
+            onClick={() =>
+              append({ okayMessage: "okay", notOkayMessage: "not okay" })
+            }
           >
             Add Sub Requirement
           </button>
