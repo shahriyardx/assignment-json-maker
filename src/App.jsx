@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import ExportModal from "./components/ExportModal"
 import Sections from "./components/Sections"
 import { getJsonData } from "./utils"
+import LabledInput from "./components/LabledInput"
 
 function App() {
   const {
@@ -13,7 +14,7 @@ function App() {
     getValues,
     errors,
     setValue,
-  } = useForm({ defaultValues: { sections: [] } })
+  } = useForm({ defaultValues: { sections: [], highestMark: 60 } })
   const importRef = useRef()
 
   const [json, setJson] = useState(null)
@@ -27,9 +28,8 @@ function App() {
     reader.onloadend = () => {
       const content = reader.result
       const jsonData = JSON.parse(content)
-      console.log(getJsonData(jsonData))
       reset(getJsonData(jsonData))
-      
+
       try {
         importRef.current?.reset()
       } catch {
@@ -58,7 +58,8 @@ function App() {
       ...data,
     }
 
-    download(json)
+    console.log(json)
+    // download(json)
   }
   const onSubmitLegacy = (data) => {
     const json = {}
@@ -103,8 +104,9 @@ function App() {
 
       json[section.name.trim().replaceAll(" ", "-")] = sectionJson
     }
-  
-    download(json)
+
+    console.log(json)
+    // download(json)
   }
 
   return (
@@ -132,17 +134,27 @@ function App() {
           {...{ control, register, getValues, setValue, errors }}
         />
 
-        <div className="mt-3">
-          <div className="flex items-center gap-3">
+        <div className="mt-5 grid grid-cols-[200px,auto] gap-5 p-5 border border-zinc-500 rounded-md">
+          <LabledInput>
             <input
-              id="include"
-              type="checkbox"
-              defaultChecked
-              {...register("include")}
+              {...register("highestMark")}
+              className="w-full"
+              placeholder="Highest Mark"
             />
-            <label htmlFor="include">
-              include description for sub requirements
-            </label>
+          </LabledInput>
+
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-3">
+              <input
+                id="include"
+                type="checkbox"
+                defaultChecked
+                {...register("include")}
+              />
+              <label htmlFor="include">
+                include description for sub requirements
+              </label>
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
