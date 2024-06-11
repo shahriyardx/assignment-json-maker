@@ -7,7 +7,11 @@ const getJsonDataLegacy = (jsonData) => {
         const subreqs = []
         for (const key in requirement) {
           if (key.startsWith("sub_req_")) {
-            subreqs.push(requirement[key])
+            subreqs.push({
+              ...requirement[key],
+              okayMessage: "okay",
+              notOkayMessage: "not okay",
+            })
           }
         }
         const reqData = {
@@ -15,7 +19,8 @@ const getJsonDataLegacy = (jsonData) => {
             description: requirement.description,
             number: requirement.number,
             correct: requirement.correct,
-            message: requirement.message,
+            okayMessage: "okay",
+            notOkayMessage: "not okay",
           },
           subRequirements: subreqs,
         }
