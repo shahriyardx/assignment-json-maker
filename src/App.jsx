@@ -89,7 +89,10 @@ function App() {
             number: String(subRequirement.number),
             correct: true,
             message: data.include
-              ? `${subRequirement.description} -> ${requirement.data.notOkayMessage}`
+              ? subRequirement.notOkayMessage == "not okay" ||
+                subRequirement.notOkayMessage == "not okay."
+                ? `${subRequirement.description} -> ${requirement.data.notOkayMessage}`
+                : subRequirement.notOkayMessage
               : requirement.data.notOkayMessage,
           }
           requirementJson[req_name] = subReqJson
