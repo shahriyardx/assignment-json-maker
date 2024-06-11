@@ -21,7 +21,7 @@ const getJsonDataLegacy = (jsonData) => {
         }
 
         return reqData
-      }
+      },
     )
 
     sections.push({

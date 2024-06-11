@@ -52,15 +52,16 @@ function App() {
     a.click()
     document.body.removeChild(a)
   }
+
   const onSubmit = (data) => {
     const json = {
       type: "new",
       ...data,
     }
 
-    console.log(json)
-    // download(json)
+    download(json)
   }
+
   const onSubmitLegacy = (data) => {
     const json = {}
 
@@ -83,30 +84,22 @@ function App() {
             Number(subRequirementIndex) + 1
           }`
 
-          let message = "not okay"
-
-          if (subRequirement.message == "not okay" && data.include) {
-            message = `${subRequirement.description} -> not okay`
-          }
-
           const subReqJson = {
             description: subRequirement.description,
             number: String(subRequirement.number),
             correct: true,
-            message,
+            message: data.include
+              ? `${subRequirement.description} -> ${requirement.data.notOkayMessage}`
+              : requirement.data.notOkayMessage,
           }
-
           requirementJson[req_name] = subReqJson
         }
-
         sectionJson[`req-${Number(requirementIndex) + 1}`] = requirementJson
       }
-
       json[section.name.trim().replaceAll(" ", "-")] = sectionJson
     }
 
-    console.log(json)
-    // download(json)
+    download(json)
   }
 
   return (

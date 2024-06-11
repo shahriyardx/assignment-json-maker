@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 body {
-    @apply bg-zinc-950 text-zinc-200;
+  @apply bg-zinc-950 text-zinc-200;
 }
 
 input {
-    @apply rounded-md text-zinc-400 bg-zinc-900 border-0;
+  @apply rounded-md text-zinc-400 bg-zinc-900 border-0;
 }

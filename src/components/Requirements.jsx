@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { useFieldArray } from "react-hook-form"
 import { BiChevronDown, BiChevronUp, BiTrashAlt } from "react-icons/bi"
 import LabledInput from "./LabledInput"

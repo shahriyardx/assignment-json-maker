@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { useFieldArray } from "react-hook-form"
 import { BiTrashAlt } from "react-icons/bi"
 import LabledInput from "./LabledInput"
@@ -27,10 +26,7 @@ const Sections = ({ control, register }) => {
                 />
               </LabledInput>
 
-              <Requirements
-                nestIndex={index}
-                {...{ control, register }}
-              />
+              <Requirements nestIndex={index} {...{ control, register }} />
             </div>
 
             <div>
